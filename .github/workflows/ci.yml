@@ -20,6 +20,9 @@ jobs:
           echo "POSTGRES_USER=reducer_user" >> backend/.env
           echo "POSTGRES_PASSWORD=reducer_pass" >> backend/.env
       
+      - name: Move .env to project root
+        run: mv backend/.env .env
+        
       - name: Build backend
         run: docker compose build backend db
 
