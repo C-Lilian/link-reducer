@@ -3,6 +3,16 @@
 require __DIR__ . '/../src/Database.php';
 require __DIR__ . '/../src/Reducer.php';
 
+header("Access-Control-Allow-Origin: http://localhost:3000");   // Autorise React
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");     // Méthodes autorisées
+header("Access-Control-Allow-Headers: Content-Type");           // Autorise JSON
+header("Content-Type: application/json");                       // Force JSON
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 $method = $_SERVER['REQUEST_METHOD']; // GET ou POST
 $uri = trim($_SERVER['REQUEST_URI'], '/'); // Récupère l'URI sans slashes
 
@@ -52,10 +62,10 @@ if ($method === 'GET' && strlen($uri) === 25) {
     }
     
     http_response_code(404);
-    echo 'Link not found';
+    echo json_encode(['error' => 'Link not found']);
     exit;
 }
 
 // Tout autre endpoint renvoie 404
 http_response_code(404);
-echo 'Not found';
+echo json_encode(['error' => 'Not found']);
