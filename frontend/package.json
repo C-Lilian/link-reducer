@@ -1,0 +1,8 @@
+{
+  "name": "link-reducer-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "echo \"Frontend ready\" && sleep infinity"
+  }
+}
