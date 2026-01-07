@@ -16,7 +16,9 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend:/var/www/html
+      - ./backend/public:/var/www/html/public
+      - ./backend/src:/var/www/html/src
+      - ./backend/tests:/var/www/html/tests
     ports:
       - "8000:80"
     depends_on:

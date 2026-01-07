@@ -11,6 +11,7 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /e
 # Copier le code dans le container
 COPY ./public /var/www/html/public
 COPY ./src /var/www/html/src
+COPY ./src /var/www/html/tests
 
 # Autoriser .htaccess dans public
 RUN sed -i '/<Directory \/var\/www\/html\/public>/,/<\/Directory>/d' /etc/apache2/apache2.conf \
