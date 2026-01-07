@@ -8,32 +8,29 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_DB: link_reducer
-          POSTGRES_USER: reducer_user
-          POSTGRES_PASSWORD: reducer_pass
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
       - uses: actions/checkout@v4
 
+      # Création d'un .env temporaire pour Docker backend
+      - name: Create backend .env
+        run: |
+          echo "DB_HOST=db" >> backend/.env
+          echo "DB_PORT=5432" >> backend/.env
+          echo "POSTGRES_DB=reducer" >> backend/.env
+          echo "POSTGRES_USER=reducer_user" >> backend/.env
+          echo "POSTGRES_PASSWORD=reducer_pass" >> backend/.env
+      
       - name: Build backend
-        run: docker-compose build backend
+        run: docker compose build backend db
 
       - name: Start backend
-        run: docker-compose up -d backend
+        run: docker compose up -d backend db
 
       - name: Test backend
-        run: sh backend/tests/reduce_test.sh
+        run: docker compose run --rm backend sh /var/www/html/tests/reduce_test.sh
+
+      - name: Stop backend containers
+        run: docker compose down
 
   frontend:
     runs-on: ubuntu-latest
