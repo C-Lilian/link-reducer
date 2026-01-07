@@ -12,7 +12,8 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   backend:
-    image: php:8.3-apache
+    build:
+      context: ./backend
     container_name: link_reducer_backend
     env_file:
       - .env
