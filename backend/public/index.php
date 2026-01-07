@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../src/Database.php';
-require __DIR__ . '/../src/Reducer.php';
+require __DIR__ . '/../src/database.php';
+require __DIR__ . '/../src/reducer.php';
 
 header("Access-Control-Allow-Origin: http://localhost:3000");   // Autorise React
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");     // Méthodes autorisées
