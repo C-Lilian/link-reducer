@@ -1,4 +1,4 @@
-# 🔗 Link Shortener – Projet Web
+# 🔗 Link Reducer – Projet Web
 
 Projet de **raccourcisseur de liens** (type bit.ly) réalisé avec une architecture **full Docker**, comprenant un **frontend React**, un **backend PHP** et une **base de données PostgreSQL 17**.
 
