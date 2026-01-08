@@ -12,28 +12,25 @@ jobs:
       - uses: actions/checkout@v4
 
       # Création d'un .env temporaire pour Docker backend
-      - name: Create backend .env
+      - name: Create .env
         run: |
-          echo "DB_HOST=db" >> backend/.env
-          echo "DB_PORT=5432" >> backend/.env
-          echo "POSTGRES_DB=reducer" >> backend/.env
-          echo "POSTGRES_USER=reducer_user" >> backend/.env
-          echo "POSTGRES_PASSWORD=reducer_pass" >> backend/.env
+          cat > .env << EOF
+          DB_HOST=db
+          DB_PORT=5432
+          POSTGRES_DB=reducer
+          POSTGRES_USER=reducer_user
+          POSTGRES_PASSWORD=reducer_pass
+          EOF
       
-      - name: Move .env to project root
-        run: mv backend/.env .env
-        
-      - name: Build backend
-        run: docker compose build backend db
-
-      - name: Start backend
-        run: docker compose up -d backend db
-
-      - name: Test backend
-        run: docker compose run --rm backend sh /var/www/html/tests/reduce_test.sh
-
-      - name: Stop backend containers
-        run: docker compose down
+      - name: Start services
+        run: docker compose up -d --wait
+      
+      - name: Run tests
+        run: docker compose exec -T backend sh /var/www/html/tests/reduce_test.sh
+      
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
 
   frontend:
     runs-on: ubuntu-latest
